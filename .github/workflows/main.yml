@@ -11,7 +11,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        app: [prowlarr, radarr, sonarr, transmission]
+        app: [bazarr, novnc, prowlarr, radarr, sonarr, transmission]
 
     steps:
       - name: Checkout repository
