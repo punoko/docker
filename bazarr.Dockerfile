@@ -13,4 +13,4 @@ COPY --from=download --chown=1000:1000 /app .
 RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 6767
 ENTRYPOINT ["python","bazarr.py","--no-update","--config","/config"]
-HEALTHCHECK CMD curl -f http://localhost:6767/system/status || exit 1
+#HEALTHCHECK CMD curl -f http://localhost:6767/system/status || exit 1 # doesn't work because no curl in image
