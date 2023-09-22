@@ -1,7 +1,7 @@
 FROM python:alpine
 WORKDIR /app
 VOLUME /config /media
-RUN apk add --no-cache curl \
+RUN apk add --no-cache curl libarchive-tools \
  && curl -fsSL https://github.com/morpheus65535/bazarr/releases/latest/download/bazarr.zip -o bazarr.zip \
  && unzip -q bazarr.zip \
  && rm bazarr.zip \
