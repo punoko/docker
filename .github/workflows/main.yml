@@ -1,17 +1,15 @@
+name: Main
+
 on:
-  push:
-    branches: main
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
 
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    strategy:
-      matrix:
-        app: [bazarr, novnc, prowlarr, radarr, sonarr, transmission]
 
     steps:
       - name: Checkout repository
@@ -31,22 +29,22 @@ jobs:
         uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.app }}
+          images: ghcr.io/${{ github.repository_owner }}/${{ inputs.app }}
           flavor: latest=true
 
       - name: Build and push images
         uses: docker/build-push-action@v5
         with:
           push: true
-          file: ${{ matrix.app }}.Dockerfile
+          file: ${{ inputs.app }}/Dockerfile
           provenance: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Delete old images
         uses: actions/delete-package-versions@v4
-        with: 
-          package-name: ${{ matrix.app }}
+        with:
+          package-name: ${{ inputs.app }}
           package-type: 'container'
           min-versions-to-keep: 5
           delete-only-untagged-versions: 'true'
