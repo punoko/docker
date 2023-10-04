@@ -1,0 +1,19 @@
+name: Radarr
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - radarr/Dockerfile
+  workflow_dispatch:
+
+jobs:
+  call-main-workflow:
+    uses: ./.github/workflows/main.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      app: radarr
+

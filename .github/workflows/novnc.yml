@@ -1,0 +1,19 @@
+name: noVNC
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - novnc/Dockerfile
+  workflow_dispatch:
+
+jobs:
+  call-main-workflow:
+    uses: ./.github/workflows/main.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      app: novnc
+

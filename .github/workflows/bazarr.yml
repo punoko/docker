@@ -1,0 +1,19 @@
+name: Bazarr
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - bazarr/Dockerfile
+  workflow_dispatch:
+
+jobs:
+  call-main-workflow:
+    uses: ./.github/workflows/main.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      app: bazarr
+

@@ -1,0 +1,19 @@
+name: Transmission
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - transmission/Dockerfile
+  workflow_dispatch:
+
+jobs:
+  call-main-workflow:
+    uses: ./.github/workflows/main.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      app: transmission
+
