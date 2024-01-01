@@ -1,8 +1,8 @@
 FROM alpine:latest
 WORKDIR /app
 VOLUME /config /downloads /media
-RUN apk add --no-cache curl icu-libs libintl sqlite-libs
-RUN curl -fsSL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linux-musl&arch=x64" \
+RUN apk add --no-cache curl icu-libs jq libintl sqlite-libs
+RUN curl -fsSL "$(curl https://services.sonarr.tv/v1/releases | jq -r '."v4-stable".linuxMusl.x64.archive.url')" \
   | tar xz --strip-components=1 \
  && rm -rf Sonarr.Update
 EXPOSE 8989
