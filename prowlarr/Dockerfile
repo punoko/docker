@@ -8,4 +8,3 @@ RUN curl -fsSL $(curl -s https://api.github.com/repos/prowlarr/prowlarr/releases
     && rm -rf Prowlarr.Update
 EXPOSE 9696
 ENTRYPOINT ["/app/Prowlarr","-data=/config","-nobrowser"]
-HEALTHCHECK CMD curl -f http://localhost:9696/system/status || exit 1

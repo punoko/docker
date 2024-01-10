@@ -8,4 +8,3 @@ RUN curl -fsSL $(curl -s https://api.github.com/repos/Radarr/Radarr/releases/lat
     && rm -rf Radarr.Update
 EXPOSE 7878
 ENTRYPOINT ["/app/Radarr","-data=/config","-nobrowser"]
-HEALTHCHECK CMD curl -f http://localhost:7878/system/status || exit 1

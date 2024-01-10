@@ -10,4 +10,3 @@ RUN curl -fsSL https://github.com/morpheus65535/bazarr/releases/latest/download/
     && /app/bin/pip install --no-cache-dir -r requirements.txt
 EXPOSE 6767
 ENTRYPOINT ["/app/bin/python","bazarr.py","--no-update","--config","/config"]
-HEALTHCHECK CMD curl -f http://localhost:6767/system/status || exit 1

@@ -8,4 +8,3 @@ RUN curl -fsSL $(curl https://services.sonarr.tv/v1/releases \
     && rm -rf Sonarr.Update
 EXPOSE 8989
 ENTRYPOINT ["/app/Sonarr","-data=/config","-nobrowser"]
-HEALTHCHECK CMD curl -f http://localhost:8989/system/status || exit 1
