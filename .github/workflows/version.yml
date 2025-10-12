@@ -1,0 +1,19 @@
+on:
+  workflow_dispatch:
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Git config
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Check Sonarr version
+        run: |
+          curl -fsSL https://api.github.com/repos/Sonarr/Sonarr/releases/latest | jq -r .name > sonarr/version
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Sonarr $(cat sonarr/version)"
+            git push
+          fi
