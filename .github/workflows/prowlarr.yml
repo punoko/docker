@@ -7,7 +7,7 @@ on:
     paths:
     - prowlarr/Dockerfile
   schedule:
-    - cron: "34 12 * * *"
+    - cron: "10 12 * * *"
   workflow_dispatch:
 
 jobs:
