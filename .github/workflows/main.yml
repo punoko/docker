@@ -28,8 +28,10 @@ jobs:
           echo $RELEASE >${{ inputs.app }}/release
           git add ${{ inputs.app }}/release
           if git diff-index --quiet HEAD --; then
+            echo Release already up to date
             echo 'new=false' >> $GITHUB_OUTPUT
           else
+            echo New release: $RELEASE
             echo 'new=true' >> $GITHUB_OUTPUT
           fi
 
@@ -63,7 +65,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m "${{ inputs.app }} $LATEST"
+          git commit -m '${{ inputs.app }} ${{ steps.release.outputs.release }}'
           git push
 
       - uses: actions/delete-package-versions@v5
