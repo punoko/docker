@@ -14,7 +14,7 @@ on:
         type: string
 
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,12 +24,13 @@ jobs:
         id: release
         run: |
           RELEASE=$(curl -fsSL ${{ inputs.url }} | jq -r .name)
-          echo $RELEASE >>${{ inputs.app }}/release
           echo "release=$RELEASE" >> $GITHUB_OUTPUT
-          if git diff-index --quiet HEAD ${{ inputs.app }}/release; then
-            echo "new=false" >> $GITHUB_OUTPUT
+          echo $RELEASE >${{ inputs.app }}/release
+          git add ${{ inputs.app }}/release
+          if git diff-index --quiet HEAD --; then
+            echo 'new=false' >> $GITHUB_OUTPUT
           else
-            echo "new=true" >> $GITHUB_OUTPUT
+            echo 'new=true' >> $GITHUB_OUTPUT
           fi
 
       - uses: docker/login-action@v3
@@ -57,12 +58,11 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Commit if new release
+      - name: Commit new release
         if: ${{ steps.release.outputs.new == 'true' }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add ${{ inputs.app }}/release
           git commit -m "${{ inputs.app }} $LATEST"
           git push
 
