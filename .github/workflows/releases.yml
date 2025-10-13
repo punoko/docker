@@ -1,0 +1,48 @@
+name: Check Releases
+on:
+  schedule:
+    - cron: "34 12 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  releases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Git config
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Bazarr
+        run: |
+          curl -fsSL https://api.github.com/repos/morpheus65535/bazarr/releases/latest | jq -r .name > bazarr/release
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Bazarr $(cat bazarr/release)"
+            git push
+          fi
+      - name: Prowlarr
+        run: |
+          curl -fsSL https://api.github.com/repos/prowlarr/prowlarr/releases/latest | jq -r .name > prowlarr/release
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Prowlarr $(cat prowlarr/release)"
+            git push
+          fi
+      - name: Radarr
+        run: |
+          curl -fsSL https://api.github.com/repos/Radarr/Radarr/releases/latest | jq -r .name > radarr/release
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Radarr $(cat radarr/release)"
+            git push
+          fi
+      - name: Sonarr
+        run: |
+          curl -fsSL https://api.github.com/repos/Sonarr/Sonarr/releases/latest | jq -r .name > sonarr/release
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Sonarr $(cat sonarr/release)"
+            git push
+          fi
