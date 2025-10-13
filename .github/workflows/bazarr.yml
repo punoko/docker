@@ -6,14 +6,17 @@ on:
     - main
     paths:
     - bazarr/Dockerfile
-    - bazarr/release
+  schedule:
+    - cron: "34 12 * * *"
   workflow_dispatch:
 
 jobs:
   call-main-workflow:
     uses: ./.github/workflows/main.yml
     permissions:
-      contents: read
+      contents: write
       packages: write
     with:
       app: bazarr
+      url: https://api.github.com/repos/morpheus65535/bazarr/releases/latest
+      event: ${{ github.event_name }}

@@ -6,14 +6,17 @@ on:
     - main
     paths:
     - prowlarr/Dockerfile
-    - prowlarr/release
+  schedule:
+    - cron: "34 12 * * *"
   workflow_dispatch:
 
 jobs:
   call-main-workflow:
     uses: ./.github/workflows/main.yml
     permissions:
-      contents: read
+      contents: write
       packages: write
     with:
       app: prowlarr
+      url: https://api.github.com/repos/prowlarr/prowlarr/releases/latest
+      event: ${{ github.event_name }}
