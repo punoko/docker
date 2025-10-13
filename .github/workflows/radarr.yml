@@ -6,6 +6,7 @@ on:
     - main
     paths:
     - radarr/Dockerfile
+    - radarr/release
   workflow_dispatch:
 
 jobs:
@@ -16,4 +17,3 @@ jobs:
       packages: write
     with:
       app: radarr
-
