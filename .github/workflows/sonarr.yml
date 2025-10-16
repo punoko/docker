@@ -1,21 +1,20 @@
 name: Sonarr
-
 on:
   push:
     branches:
     - main
     paths:
     - sonarr/Dockerfile
-  schedule:
-    - cron: "20 12 * * *"
+  workflow_call:
   workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   sonarr:
-    uses: ./.github/workflows/main.yml
-    permissions:
-      contents: write
-      packages: write
+    uses: ./.github/workflows/common.yml
     with:
       app: sonarr
       url: https://api.github.com/repos/Sonarr/Sonarr/releases/latest

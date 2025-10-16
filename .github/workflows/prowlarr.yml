@@ -1,22 +1,21 @@
 name: Prowlarr
-
 on:
   push:
     branches:
     - main
     paths:
     - prowlarr/Dockerfile
-  schedule:
-    - cron: "10 12 * * *"
+  workflow_call:
   workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   prowlarr:
-    uses: ./.github/workflows/main.yml
-    permissions:
-      contents: write
-      packages: write
+    uses: ./.github/workflows/common.yml
     with:
       app: prowlarr
-      url: https://api.github.com/repos/prowlarr/prowlarr/releases/latest
+      url: https://api.github.com/repos/Prowlarr/Prowlarr/releases/latest
       event: ${{ github.event_name }}

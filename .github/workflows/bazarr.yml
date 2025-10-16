@@ -1,21 +1,20 @@
 name: Bazarr
-
 on:
   push:
     branches:
     - main
     paths:
     - bazarr/Dockerfile
-  schedule:
-    - cron: "05 12 * * *"
+  workflow_call:
   workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   bazarr:
-    uses: ./.github/workflows/main.yml
-    permissions:
-      contents: write
-      packages: write
+    uses: ./.github/workflows/common.yml
     with:
       app: bazarr
       url: https://api.github.com/repos/morpheus65535/bazarr/releases/latest

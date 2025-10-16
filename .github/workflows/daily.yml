@@ -1,0 +1,23 @@
+name: Daily schedule
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  bazarr:
+    uses: ./.github/workflows/bazarr.yml
+  prowlarr:
+    needs: bazarr
+    uses: ./.github/workflows/prowlarr.yml
+  radarr:
+    needs: prowlarr
+    uses: ./.github/workflows/radarr.yml
+  sonarr:
+    needs: radarr
+    uses: ./.github/workflows/sonarr.yml

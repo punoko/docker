@@ -1,21 +1,20 @@
 name: Radarr
-
 on:
   push:
     branches:
     - main
     paths:
     - radarr/Dockerfile
-  schedule:
-    - cron: "15 12 * * *"
+  workflow_call:
   workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   radarr:
-    uses: ./.github/workflows/main.yml
-    permissions:
-      contents: write
-      packages: write
+    uses: ./.github/workflows/common.yml
     with:
       app: radarr
       url: https://api.github.com/repos/Radarr/Radarr/releases/latest

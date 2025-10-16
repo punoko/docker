@@ -1,5 +1,4 @@
-name: Main
-
+name: Common
 on:
   workflow_call:
     inputs:
@@ -14,9 +13,8 @@ on:
         type: string
 
 jobs:
-  main:
+  common:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v5
 
@@ -28,7 +26,7 @@ jobs:
           echo $RELEASE >${{ inputs.app }}/release
           git add ${{ inputs.app }}/release
           if git diff-index --quiet HEAD --; then
-            echo Release already up to date
+            echo Up to date: $RELEASE
             echo 'new=false' >> $GITHUB_OUTPUT
           else
             echo New release: $RELEASE
